@@ -27,7 +27,6 @@ class words {
 
 class Player extends Character{
     String word_end;
-    String pattern = "^[\\u3040-\\u309F]+$";
     Player(String name) {
         super(name);
     }
@@ -36,9 +35,11 @@ class Player extends Character{
         System.out.println(this.name+"のターン");
         Scanner scanner = new Scanner(System.in);
         String input = scanner.nextLine();//String型の文字列を入力したいからnextLine()を用いる
-        word_end = input;
-        if(word_end.equals(pattern)){
-
+        word_end = input.substring(input.length()-1);//入力した文字列の末尾1文字を取得する
+        if(word_end.matches("[ア-ン]")){//正規表現は""で括る
+            System.out.println("OK");
+        }else{
+            System.out.println("NO");
         }
 
     }
