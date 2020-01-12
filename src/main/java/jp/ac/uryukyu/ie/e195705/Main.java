@@ -32,16 +32,26 @@ class Player extends Character{
     }
 
     public void Action(){
+        int count = 1;
         System.out.println(this.name+"のターン");
-        Scanner scanner = new Scanner(System.in);
-        String input = scanner.nextLine();//String型の文字列を入力したいからnextLine()を用いる
-        word_end = input.substring(input.length()-1);//入力した文字列の末尾1文字を取得する
-        if(word_end.matches("[ア-ン]")){//正規表現は""で括る
-            System.out.println("OK");
-        }else{
-            System.out.println("NO");
+        while(count > 0) {
+            Scanner scanner = new Scanner(System.in);
+            String input = scanner.nextLine();//String型の文字列を入力したいからnextLine()を用いる
+            word_end = input.substring(input.length() - 1);//入力した文字列の末尾1文字を取得する
+            if (word_end.matches("[ア-ン]")) {//正規表現は""で括る
+                if (word_end.matches(("[ヌワヲ]"))) {
+                    System.out.println("そのような数学的単語は私には見つけられぬ、、\n貴様の勝ちだ");
+                }
+                if (word_end.matches(("[ン]"))) {
+                    System.out.println("貴様はしりとりのルールも知らんのか！");
+                    System.out.println(this.name + "の負け");
+                } else {
+                    System.out.println(input);
+                }break;
+            } else {
+                System.out.println("申し訳ないがカタカナ表記で頼む、、");
+            }
         }
-
     }
 }
 
@@ -61,6 +71,7 @@ public class Main {
         Player player = new Player("チャンレンジャー");
         Computer com = new Computer("数学的しりとりマスター");
         player.Action();
+        com.Action();
 
 
     }
