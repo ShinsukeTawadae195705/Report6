@@ -7,6 +7,8 @@ import java.util.Scanner;//これが標準出力（応答文）をするため�
 
 abstract class Character{
     String name;
+    String word_end;
+    String word_initial;
     Character(String name){
         this.name = name;
     }
@@ -26,7 +28,6 @@ class words {
 }
 
 class Player extends Character{
-    String word_end;
     Player(String name) {
         super(name);
     }
@@ -62,6 +63,8 @@ class Computer extends Character{
 
     public void Action(){
         System.out.println(this.name+"のターン");
+        word_initial = word_end;
+
     }
 }
 
