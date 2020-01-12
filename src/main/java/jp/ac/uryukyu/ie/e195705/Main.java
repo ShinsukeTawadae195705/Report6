@@ -3,6 +3,7 @@ package jp.ac.uryukyu.ie.e195705;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Scanner;//これが標準出力（応答文）をするために必要
 
 abstract class Character{
     String name;
@@ -25,12 +26,21 @@ class words {
 }
 
 class Player extends Character{
+    String word_end;
+    String pattern = "^[\\u3040-\\u309F]+$";
     Player(String name) {
         super(name);
     }
 
     public void Action(){
-        System.out.println(this.name+"のターンです");
+        System.out.println(this.name+"のターン");
+        Scanner scanner = new Scanner(System.in);
+        String input = scanner.nextLine();//String型の文字列を入力したいからnextLine()を用いる
+        word_end = input;
+        if(word_end.equals(pattern)){
+
+        }
+
     }
 }
 
@@ -40,14 +50,17 @@ class Computer extends Character{
     }
 
     public void Action(){
-        System.out.println(this.name+"のターンです");
+        System.out.println(this.name+"のターン");
     }
 }
 
 public class Main {
     public static void main(String[] args){
-        System.out.println("しりとりスタート");
+        System.out.println("しりとりスタート\nしりとりの「り」からスタート");
         Player player = new Player("チャンレンジャー");
         Computer com = new Computer("数学的しりとりマスター");
+        player.Action();
+
+
     }
 }
