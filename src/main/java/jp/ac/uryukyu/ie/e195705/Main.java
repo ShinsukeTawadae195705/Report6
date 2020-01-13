@@ -1,14 +1,9 @@
 package jp.ac.uryukyu.ie.e195705;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;//これが標準出力（応答文）をするために必要
+import java.util.*;
 
 abstract class Character{
     String name;
-    String word_end;
-    String word_initial;
 
     void Name(String name) {
         this.name = name;
@@ -28,9 +23,16 @@ class Words {
     List<String> words_Y = new ArrayList<>(Arrays.asList("ヤコビギョウレ（ヤコビ行列）ツ","", "ユークリッド","", "ヨゲンテイ（余弦定理）リ"));
     List<String> words_R = new ArrayList<>(Arrays.asList("ライプニッツ", "リシンリ（離心率）ツ", "ルーローノサンカッケ（ルーローの三角形）イ", "レーダーチャート", "ロンリエンザン（論理演算子）シ"));
 
+    List<String> char_words = new ArrayList<>();
+    List<String> char_words_All = new ArrayList<>(Arrays.asList("ア","イ","ウ","エ","オ","カ","キ","ク","ケ","コ","サ","シ","ス","セ","ソ","タ","チ","ツ","テ","ト","ナ","ニ","ヌ","ネ","ノ","ハ","ヒ","フ","ヘ","ホ","マ","ミ","ム","メ","モ","ヤ","","ユ","","ヨ","ラ","リ","ル","レ","ロ"));
+
     void words(){
         //javaにはタプルが存在しないため、1行で要素を追加した。（そうでないと行数を稼いでるようになってしまうので、、）
         words.addAll(words_A);words.addAll(words_K);words.addAll(words_S);words.addAll(words_T);words.addAll(words_N);words.addAll(words_H);words.addAll(words_M);words.addAll(words_Y);words.addAll(words_R);
+    }
+
+    void char_words(){
+        char_words.addAll((char_words_All));
     }
 }
 
@@ -46,36 +48,45 @@ class Player extends Character{
 
 class Computer extends Character{
     void Computer_name(String name){
-        Name(name);
+        Name("しりとりマスター");
     }
-
 
     public void Action_C(){
         System.out.println(this.name+"のターン");
-        Words word = new Words();
-        word.words();
-        System.out.println(word.words.indexOf(word_end));
     }
 }
 
 class Action{
-    int count = 1;
+    int count = 0;
     String word_end;
     String word_initial;
     public void Action(){
-        while (count > 0){
+        while (count <= 0){
             Scanner scanner = new Scanner(System.in);
             String input = scanner.nextLine();//String型の文字列を入力したいからnextLine()を用いる
-            word_end = input.substring(input.length() - 1);//入力した文字列の末尾1文字を取得する
+            word_end = input.substring(input.length() -1);//入力した文字列の末尾1文字を取得する
             if (word_end.matches("[ア-ン]")) {//正規表現は""で括る
-                if (word_end.matches(("[ヌワヲ ]"))) {
+                if (word_end.matches(("[ヌワヲ]"))) {
                     System.out.println("そのような数学的単語は私には見つけられぬ、、\n貴様の勝ちだ");
+                    break;
                 }if (word_end.matches(("[ン]"))) {
-                    System.out.println("貴様はしりとりのルールも知らんのか！");
-                }if (word_end.matches("[ーャュョ]")){
+                    System.out.println("貴様はしりとりのルールも知らんのか！\nもう一回だ");
+                    break;
+                }if (word_end.matches("[ーャュョ　]")){
                     System.out.println("あ、それはなしで、、");
-                }
-            } else {
+                    continue;
+                }Computer com = new Computer();
+                com.Computer_name("しりとりマスター");
+                com.Action_C();
+                Words word = new Words();
+                word.words();
+                Words char_word = new Words();
+                char_word.char_words();
+                int num = char_word.char_words.indexOf(word_end);
+                System.out.println("→"+word.words.get(num));
+                word_initial = word.words.get(num).substring(word.words.get(num).length() -1);
+                break;
+            }else {
                 System.out.println("申し訳ないがカタカナ表記で頼む、、");
             }
         }
@@ -83,19 +94,26 @@ class Action{
 }
 
 public class Main {
-    public static void main(String[] args){
-        String word_end;
-        String word_initial;
-        System.out.println("しりとりスタート\nしりとりの「り」からスタート");
+    public static void main(String[] args) {
+        int count = 0;
+        System.out.println("システムの都合上、濁音半濁音はなしだ。（）\nしりとりスタート\nしりとりの「り」からスタート");
         Player player = new Player();
         player.Player_name("チャレンジャー");
-        Computer com = new Computer();
-        com.Computer_name("数学的しりとりマスター");
         while (true) {
             player.Action_P();
-            Action action = new Action();
-            action.Action();
-            com.Action_C();
+            while (true) {
+                Action action = new Action();
+                action.Action();
+                Scanner scanner = new Scanner(System.in);
+                String input = scanner.nextLine();
+                while (count <= 0){
+                    if (action.word_initial.equals(input)){
+                    }else{
+                        System.out.println("違う違う！");
+                        break;
+                    }
+                }
+            }
         }
     }
 }
