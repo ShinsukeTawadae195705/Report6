@@ -2,6 +2,9 @@ package jp.ac.uryukyu.ie.e195705;
 
 import java.util.*;
 
+/**
+ * キャラクターの名前を使い回す
+ */
 abstract class Character{
     String name;
 
@@ -10,6 +13,10 @@ abstract class Character{
     }
 }
 
+/**
+ * words -> 自分で用意した50音（正確には42音）から始まる単語をリストに用意した。
+ * char_words -> 自分で用意した50音から始まる単語を取り出すために、50音をリストに用意した。
+ */
 class Words {
     //効率よくしりとりを行いたいため全てをカタカナで表記する。わかりにくい場合は()を用いて表記する。
     List<String> words = new ArrayList<>();
@@ -56,13 +63,15 @@ class Computer extends Character{
     }
 }
 
+/**
+ * しりとりのルールに従って、場合分けを行っているクラス。
+ *
+ */
 class Action{
     int count = 0;
-    String input;
-    String word_end;
-    String word_initial;
-    public void Write(){
-    }
+    String input;//userが入力した文字列を保存する
+    String word_end;//userが入力した文字列の末尾1文字を保存する
+    String word_initial;//computerが出力した時の頭1文字を保存する
 
     public void Action(){
         Words word = new Words();
@@ -97,6 +106,10 @@ class Action{
     }
 }
 
+/**
+ * しりとり
+ *　引数なし
+ */
 public class Main {
     public static void main(String[] args) {
         int count = 0;
@@ -110,7 +123,6 @@ public class Main {
         Action action = new Action();
         while (true) {
             player.Action_P();
-            action.Write();
             action.Action();
             while (count <= 0){
                 Scanner scanner = new Scanner(System.in);
