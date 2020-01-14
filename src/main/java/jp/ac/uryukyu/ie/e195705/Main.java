@@ -13,14 +13,14 @@ abstract class Character{
 class Words {
     //効率よくしりとりを行いたいため全てをカタカナで表記する。わかりにくい場合は()を用いて表記する。
     List<String> words = new ArrayList<>();
-    List<String> words_A = new ArrayList<>(Arrays.asList("アルキメデス", "インテグラル", "ウ（裏）ラ", "エピサイクロイド", "オイラー"));
-    List<String> words_K = new ArrayList<>(Arrays.asList("カクリツブン（確率分布）プ", "キョス（虚数）ウ", "クラインノツ（クラインの壺）ボ", "ケーニヒスベルグ", "コセカント"));
-    List<String> words_S = new ArrayList<>(Arrays.asList("サイクロイド", "シゼンタイス（自然対数）ウ", "スーパーソス（スーパー素数）ウ", "セイキブン（正規分布）プ", "ソインスウブンカ（素因数分解）イ"));
+    List<String> words_A = new ArrayList<>(Arrays.asList("アルキメデス", "インテグラル", "ウ（裏）ラ", "エラトステネスノフル（エラトステネスの篩）イ", "オイラーノコウシ（オイラーの公式）キ"));
+    List<String> words_K = new ArrayList<>(Arrays.asList("カクリ（確率）ツ", "キョス（虚数）ウ", "クミアワ（組み合わせ）セ", "ケーニヒスベルグノハ（ケーニヒスベルグの橋）シ", "コセカント"));
+    List<String> words_S = new ArrayList<>(Arrays.asList("サンカクス（三角数）ウ", "シゼンタイス（自然対数）ウ", "スーパーソス（スーパー素数）ウ", "セイタメンタ（正多面体）イ", "ソインスウブンカ（素因数分解）イ"));
     List<String> words_T = new ArrayList<>(Arrays.asList("タンジェント", "チャンパーノウンテイス（チャンパーノウン定数）ウ", "ツェラーノコウシ（ツェラーの公式）キ", "テイラーテンカ（テイラー展開）イ", "トクセイホウテイシ（特性方程式）キ"));
-    List<String> words_N = new ArrayList<>(Arrays.asList("ナン（NAND）ド", "ニコウケイス（二項係数）ウ", "", "ネイピアス（ネイピア数）ウ", "ノウ（濃度）ド"));
-    List<String> words_H = new ArrayList<>(Arrays.asList("ハミルトンサイクル", "ヒルベルトホテル", "フィボナッチスウレ（フィボナッチ数列）ツ", "ヘロンノコウシ（ヘロンの公式）キ", "ホシュウゴ（補集合）う"));
+    List<String> words_N = new ArrayList<>(Arrays.asList("ナユ（那由多）タ", "ニコウケイス（二項係数）ウ", "", "ネイピアス（ネイピア数）ウ", "ノ（NOR）ア"));
+    List<String> words_H = new ArrayList<>(Arrays.asList("ハミルトンサイクル", "ヒルベルトホテル", "フィボナッチスウレ（フィボナッチ数列）ツ", "ヘロンノコウシ（ヘロンの公式）キ", "ホシュウゴ（補集合）ウ"));
     List<String> words_M = new ArrayList<>(Arrays.asList("マンデルブロシュウゴ（マンデルブロ集合）ウ", "ミチス（未知数）ウ", "ムゲンダ（無限大）イ", "メルセンヌ", "モンテカルロホ（モンテカルロ法）ウ"));
-    List<String> words_Y = new ArrayList<>(Arrays.asList("ヤコビギョウレ（ヤコビ行列）ツ","", "ユークリッド","", "ヨゲンテイ（余弦定理）リ"));
+    List<String> words_Y = new ArrayList<>(Arrays.asList("ヤコビギョウレ（ヤコビ行列）ツ","", "ユークリッドノゴジョホ（ユークリッドの互除法）ウ","", "ヨゲンテイ（余弦定理）リ"));
     List<String> words_R = new ArrayList<>(Arrays.asList("ライプニッツ", "リシンリ（離心率）ツ", "ルーローノサンカッケ（ルーローの三角形）イ", "レーダーチャート", "ロンリエンザン（論理演算子）シ"));
 
     List<String> char_words = new ArrayList<>();
@@ -58,12 +58,20 @@ class Computer extends Character{
 
 class Action{
     int count = 0;
+    String input;
     String word_end;
     String word_initial;
+    public void Write(){
+    }
+
     public void Action(){
+        Words word = new Words();
+        word.words();
+        Words char_word = new Words();
+        char_word.char_words();
         while (count <= 0){
             Scanner scanner = new Scanner(System.in);
-            String input = scanner.nextLine();//String型の文字列を入力したいからnextLine()を用いる
+            input = scanner.nextLine();
             word_end = input.substring(input.length() -1);//入力した文字列の末尾1文字を取得する
             if (word_end.matches("[ア-ン]")) {//正規表現は""で括る
                 if (word_end.matches(("[ヌワヲ]"))) {
@@ -78,13 +86,9 @@ class Action{
                 }Computer com = new Computer();
                 com.Computer_name("しりとりマスター");
                 com.Action_C();
-                Words word = new Words();
-                word.words();
-                Words char_word = new Words();
-                char_word.char_words();
                 int num = char_word.char_words.indexOf(word_end);
                 System.out.println("→"+word.words.get(num));
-                word_initial = word.words.get(num).substring(word.words.get(num).length() -1);
+                word_initial = word.words.get(num).substring(word.words.get(num).length() -1);//しりとりマスターの返答の末尾1文字を取得
                 break;
             }else {
                 System.out.println("申し訳ないがカタカナ表記で頼む、、");
@@ -96,22 +100,30 @@ class Action{
 public class Main {
     public static void main(String[] args) {
         int count = 0;
-        System.out.println("システムの都合上、濁音半濁音はなしだ。（）\nしりとりスタート\nしりとりの「り」からスタート");
+        System.out.println("システムの都合上、濁音半濁音はなしだ。（）\nしりとりスタート\nなんでもええよ");
         Player player = new Player();
         player.Player_name("チャレンジャー");
+        Words word = new Words();
+        word.words();
+        Words char_word = new Words();
+        char_word.char_words();
+        Action action = new Action();
         while (true) {
             player.Action_P();
-            while (true) {
-                Action action = new Action();
-                action.Action();
+            action.Write();
+            action.Action();
+            while (count <= 0){
                 Scanner scanner = new Scanner(System.in);
                 String input = scanner.nextLine();
-                while (count <= 0){
-                    if (action.word_initial.equals(input)){
-                    }else{
-                        System.out.println("違う違う！");
-                        break;
-                    }
+                if(action.word_initial.equals(input.substring(0,1))){
+                    int num = char_word.char_words.indexOf(input.substring(input.length() - 1));
+                    System.out.println("→"+word.words.get(num));
+                    break;
+                }if(action.word_end.equals(input.substring(0,1))){
+                    action.Action();
+                }
+                else{
+                    System.out.println("違う違う");
                 }
             }
         }
